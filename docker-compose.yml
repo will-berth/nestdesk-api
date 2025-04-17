@@ -1,0 +1,26 @@
+version: "3.8"
+services:
+  # nestdesk:
+  #   container_name: nestdesk
+  #   build: .
+  #   ports:
+  #     - "3000:3000"
+  #   depends_on:
+  #     - db
+  #   volumes:
+  #     - .:/app
+  #     - /app/node_modules
+  db:
+    image: postgres:15
+    ports:
+      - "5432:5432"
+    container_name: nestdesk_db
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=securePwd
+      - POSTGRES_DB=nestdesk_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
