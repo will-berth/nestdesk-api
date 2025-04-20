@@ -22,7 +22,7 @@ export class AuthService {
         const userSaved = await this.usersService.create({...createUserDto, password: hash}); 
         const userPlain = instanceToPlain(userSaved);
         return {
-            ... userPlain,
+            ... userPlain as CreateUserDto,
             token: this.jwtService.sign(userPlain)
         }
     }
@@ -39,7 +39,7 @@ export class AuthService {
         }
         const userPlain = instanceToPlain(user);
         return {
-            ... userPlain,
+            ... userPlain as CreateUserDto,
             token: this.jwtService.sign(userPlain)
         }
     }
