@@ -19,6 +19,9 @@ export class Project {
 
     @Column({unique: true})
     name: string;
+    
+    @Column()
+    deleted: boolean;
 
     @Column()
     created_at: Date;
