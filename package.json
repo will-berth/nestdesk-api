@@ -21,6 +21,7 @@
     "typeorm": "typeorm-ts-node-esm",
     "migration:create": "typeorm migration:create",
     "migration:generate": "typeorm migration:generate -- -d ./data-source.ts",
+    "migration:revert": "ts-node ./node_modules/typeorm/cli.js migration:revert -d ./data-source.ts",
     "migration:run": "ts-node ./node_modules/typeorm/cli.js migration:run -d ./data-source.ts"
   },
   "dependencies": {
