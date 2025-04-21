@@ -31,7 +31,7 @@ export class User {
     @OneToMany(
         () => Project,
         (project) => project.user,
-        { cascade: true }
+        // { cascade: true }
     )
     projects: Project[]
 

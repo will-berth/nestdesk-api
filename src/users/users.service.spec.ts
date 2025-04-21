@@ -22,7 +22,7 @@ describe('UsersService', () => {
     service = module.get<UsersService>(UsersService);
     userRepository = module.get<Repository<User>>(getRepositoryToken(User));
 
-    await userRepository.clear();
+    // await userRepository.query(`DELETE FROM users`);
   });
 
   it('should be defined', () => {
@@ -32,7 +32,7 @@ describe('UsersService', () => {
   describe('create', () => {
     it('should create a new user', async () => {
       const createUserDto = {
-        email: 'test@example.com',
+        email: 'createuseruserservice@example.com',
         password: 'Password123!',
         name: 'Test User',
       };
@@ -50,7 +50,7 @@ describe('UsersService', () => {
   describe('findByEmail', () => {
     it('should find user by email', async () => {
       const createUserDto = {
-        email: 'find@example.com',
+        email: 'finduseruserservice@example.com',
         password: 'Password123!',
         name: 'Test User',
       };
@@ -64,12 +64,13 @@ describe('UsersService', () => {
     });
 
     it('should return null for non-existent email', async () => {
-      const result = await service.findByEmail('nonexistent@example.com');
+      const result = await service.findByEmail('nonexistentuserservice@example.com');
       expect(result).toBeNull();
     });
   });
 
   afterAll(async () => {
-    await userRepository.clear();
+      // await userRepository.clear();
+      await userRepository.query(`DELETE FROM users`);
   });
 });

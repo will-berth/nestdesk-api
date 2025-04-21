@@ -26,7 +26,8 @@ describe('UsersController', () => {
     service = module.get<UsersService>(UsersService);
     userRepository = module.get<Repository<User>>(getRepositoryToken(User));
 
-    await userRepository.clear();
+    // await userRepository.clear();
+    // await userRepository.query(`DELETE FROM users`);
   });
 
   it('should be defined', () => {
@@ -37,7 +38,7 @@ describe('UsersController', () => {
   describe('create', () => {
     it('should create a new user', async () => {
       const createUserDto = {
-        email: 'test@example.com',
+        email: 'createuserusercontroller@example.com',
         password: 'Password123!',
         name: 'Test User',
       };
@@ -55,7 +56,7 @@ describe('UsersController', () => {
 
     it('should not create user with duplicate email', async () => {
       const createUserDto = {
-        email: 'duplicate@example.com',
+        email: 'duplicateuserusercontroller@example.com',
         password: 'Password123!',
         name: 'Test User',
       };
@@ -66,6 +67,7 @@ describe('UsersController', () => {
   });
 
   afterAll(async () => {
-    await userRepository.clear();
+    // await userRepository.clear();
+    await userRepository.query(`DELETE FROM users`);
   });
 });

@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
-import { BeforeInsert, BeforeUpdate, Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { BeforeInsert, BeforeUpdate, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Exclude } from 'class-transformer';
 import { User } from '../../users/models/user.entity';
 
@@ -32,8 +32,9 @@ export class Project {
     @ManyToOne(
         () => User,
         (user) => user.projects,
-        { cascade: true }
+        // { cascade: true }
     )
+    @JoinColumn({ name: 'created_by' })
     user: User
 
     @BeforeInsert()

@@ -38,7 +38,8 @@ describe('AuthController', () => {
     jwtService = module.get<JwtService>(JwtService);
     userRepository = module.get<Repository<User>>(getRepositoryToken(User));
 
-    await userRepository.clear();
+    // await userRepository.clear();
+    // await userRepository.query(`DELETE FROM users`);
   });
 
   it('should be defined', () => {
@@ -51,7 +52,7 @@ describe('AuthController', () => {
   describe('signup', () => {
     it('should create a new user', async () => {
       const createUserDto = {
-        email: 'test@example.com',
+        email: 'createuserauthcontroller@example.com',
         password: 'Password123!',
         name: 'Test',
       };
@@ -66,7 +67,7 @@ describe('AuthController', () => {
 
     it('should not create user with duplicate email', async () => {
       const createUserDto = {
-        email: 'duplicatemail@example.com',
+        email: 'duplicatemailauthcontroller@example.com',
         password: 'Password123!',
         name: 'Test'
       };
@@ -79,7 +80,7 @@ describe('AuthController', () => {
   describe('signin', () => {
     it('should authenticate user and return token', async () => {
       const createUserDto = {
-        email: 'signin@example.com',
+        email: 'signinauthcontroller@example.com',
         password: 'Password123!',
         name: 'Test'
       };
@@ -87,7 +88,7 @@ describe('AuthController', () => {
       await controller.signUp(createUserDto);
 
       const signInDto = {
-        email: 'signin@example.com',
+        email: 'signinauthcontroller@example.com',
         password: 'Password123!'
       };
 
@@ -99,7 +100,7 @@ describe('AuthController', () => {
 
     it('should not authenticate with wrong password', async () => {
       const createUserDto = {
-        email: 'wrong@example.com',
+        email: 'wrongauthcontroller@example.com',
         password: 'Password123!',
         name: 'Test',
       };
@@ -107,7 +108,7 @@ describe('AuthController', () => {
       await controller.signUp(createUserDto);
 
       const signInDto = {
-        email: 'wrong@example.com',
+        email: 'wrongauthcontroller@example.com',
         password: 'WrongPassword123!'
       };
 
@@ -116,7 +117,7 @@ describe('AuthController', () => {
 
     it('should not authenticate non-existent user', async () => {
       const signInDto = {
-        email: 'nonexistent@example.com',
+        email: 'nonexistentauthcontroller@example.com',
         password: 'Password123!'
       };
 
@@ -125,6 +126,7 @@ describe('AuthController', () => {
   });
 
   afterAll(async () => {
-    await userRepository.clear();
+    // await userRepository.clear();
+    await userRepository.query(`DELETE FROM users`);
   });
 });

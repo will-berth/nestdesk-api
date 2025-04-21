@@ -34,7 +34,8 @@ describe('AuthService', () => {
     jwtService = module.get<JwtService>(JwtService);
     userRepository = module.get<Repository<User>>(getRepositoryToken(User));
 
-    await userRepository.clear();
+    // await userRepository.clear();
+    // await userRepository.query(`DELETE FROM users`);
   });
 
   it('should be defined', () => {
@@ -46,7 +47,7 @@ describe('AuthService', () => {
   describe('signUp', () => {
     it('should create a new user and return token', async () => {
       const createUserDto = {
-        email: 'test@example.com',
+        email: 'createuserauthservice@example.com',
         password: 'Password123!',
         name: 'Test User',
       };
@@ -62,7 +63,7 @@ describe('AuthService', () => {
 
     it('should throw error for duplicate email', async () => {
       const createUserDto = {
-        email: 'duplicate@example.com',
+        email: 'duplicateauthservice@example.com',
         password: 'Password123!',
         name: 'Test User',
       };
@@ -76,7 +77,7 @@ describe('AuthService', () => {
   describe('signIn', () => {
     it('should authenticate user and return token', async () => {
       const createUserDto = {
-        email: 'signin@example.com',
+        email: 'signinauthservice@example.com',
         password: 'Password123!',
         name: 'Test User',
       };
@@ -84,7 +85,7 @@ describe('AuthService', () => {
       await service.signUp(createUserDto);
 
       const signInDto = {
-        email: 'signin@example.com',
+        email: 'signinauthservice@example.com',
         password: 'Password123!',
       };
 
@@ -97,7 +98,7 @@ describe('AuthService', () => {
 
     it('should throw error for non-existent user', async () => {
       const signInDto = {
-        email: 'nonexistent@example.com',
+        email: 'nonexistentauthservice@example.com',
         password: 'Password123!',
       };
 
@@ -106,7 +107,7 @@ describe('AuthService', () => {
 
     it('should throw error for wrong password', async () => {
       const createUserDto = {
-        email: 'wrong@example.com',
+        email: 'wrongauthservice@example.com',
         password: 'Password123!',
         name: 'Test User',
       };
@@ -114,7 +115,7 @@ describe('AuthService', () => {
       await service.signUp(createUserDto);
 
       const signInDto = {
-        email: 'wrong@example.com',
+        email: 'wrongauthservice@example.com',
         password: 'WrongPassword123!',
       };
 
@@ -123,6 +124,7 @@ describe('AuthService', () => {
   });
 
   afterAll(async () => {
-    await userRepository.clear();
+    // await userRepository.clear();
+    await userRepository.query(`DELETE FROM users`);
   });
 });

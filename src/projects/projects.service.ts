@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateProjectDto } from './dto/create-project.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Project } from './models/project.entity';
@@ -14,10 +14,18 @@ export class ProjectsService {
     ) { }
 
     async create(createProjectDto: CreateProjectDto, userPublicId: string) {
+        const projectDb = await this.findByName(createProjectDto.name);
+        if (projectDb) {
+            throw new HttpException('Project with this name already exists', HttpStatus.CONFLICT);
+        }
         const creator = await this.usersService.findByPublicId(userPublicId);
 
         if(creator) createProjectDto.created_by = creator.id;
         const project = this.projectRepository.create(createProjectDto);
         return await this.projectRepository.save(project);
+    }
+
+    async findByName(name: string) {
+        return await this.projectRepository.findOne({ where: { name } });
     }
 }
