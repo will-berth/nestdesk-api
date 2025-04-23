@@ -6,11 +6,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { configService } from './config/config.service';
 import { AuthModule } from './auth/auth.module';
 import { ProjectsModule } from './projects/projects.module';
+import { RolesModule } from './roles/roles.module';
 
 @Module({
   imports: [
     UsersModule, 
-    TypeOrmModule.forRoot(configService.getTypeOrmConfig()), AuthModule, ProjectsModule
+    TypeOrmModule.forRoot(configService.getTypeOrmConfig()), AuthModule, ProjectsModule, RolesModule
   ],
   controllers: [AppController],
   providers: [AppService],
