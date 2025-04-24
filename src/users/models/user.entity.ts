@@ -2,6 +2,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { BeforeInsert, BeforeUpdate, Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Exclude } from 'class-transformer';
 import { Project } from '../../projects/models/project.entity';
+import { ProjectUser } from '../../projects/models/project-user.entity';
 
 @Entity({name: 'users'})
 export class User {
@@ -34,6 +35,9 @@ export class User {
         // { cascade: true }
     )
     projects: Project[]
+
+    @OneToMany(() => ProjectUser, (projectUser) => projectUser.user)
+    projectUsers: ProjectUser[];
 
     @BeforeInsert()
     generateUser(){

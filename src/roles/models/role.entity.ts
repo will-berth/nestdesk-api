@@ -1,5 +1,6 @@
 import { Exclude } from "class-transformer";
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { ProjectUser } from "src/projects/models/project-user.entity";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity({ name: 'roles' })
 export class Role {
@@ -12,4 +13,10 @@ export class Role {
 
     @Column({ unique: true })
     name: string;
+    
+    @Column({ unique: true })
+    label: string;
+
+    @OneToMany(() => ProjectUser, (projectUser) => projectUser.role)
+    projectUsers: ProjectUser[];
 }

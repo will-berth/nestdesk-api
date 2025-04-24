@@ -19,6 +19,7 @@ import { AuthGuard } from 'src/guards/auth.guard';
     //   provide: APP_GUARD,
     //   useClass: AuthGuard
     // }
-  ]
+  ],
+  exports: [RolesService]
 })
 export class RolesModule {}

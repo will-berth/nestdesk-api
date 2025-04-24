@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Role } from './models/role.entity';
@@ -14,4 +14,10 @@ export class RolesService {
             }
         });
     }
+
+    async findByPublicId(public_id: string): Promise<Role> {
+        const role = await this.roleRepository.findOne({ where: { public_id } });
+        if (!role) throw new HttpException('Rol not found', HttpStatus.CONFLICT);
+        return role;
+      }
 }

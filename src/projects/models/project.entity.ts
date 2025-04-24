@@ -1,7 +1,8 @@
 import { v4 as uuidv4 } from 'uuid';
-import { BeforeInsert, BeforeUpdate, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { BeforeInsert, BeforeUpdate, Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Exclude } from 'class-transformer';
 import { User } from '../../users/models/user.entity';
+import { ProjectUser } from './project-user.entity';
 
 
 @Entity({name: 'projects'})
@@ -36,6 +37,9 @@ export class Project {
     )
     @JoinColumn({ name: 'created_by' })
     user: User
+
+    @OneToMany(() => ProjectUser, (projectUser) => projectUser.project)
+    projectUsers: ProjectUser[];
 
     @BeforeInsert()
     generateUser(){

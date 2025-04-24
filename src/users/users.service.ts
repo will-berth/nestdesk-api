@@ -22,6 +22,10 @@ export class UsersService {
   }
   
   async findByPublicId(public_id: string) {
-    return await this.userRepository.findOne({ where: { public_id } });
+    const user = await this.userRepository.findOne({ where: { public_id } });
+
+    if(!user) throw new HttpException('User not found', HttpStatus.CONFLICT);
+
+    return user;
   }
 }
