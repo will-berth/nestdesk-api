@@ -3,7 +3,7 @@ import { BeforeInsert, Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyTo
 import { v4 as uuidv4 } from 'uuid';
 import { Project } from "./project.entity";
 import { Exclude } from "class-transformer";
-import { Role } from "src/roles/models/role.entity";
+import { Role } from "../../roles/models/role.entity";
 
 
 @Entity({ name: 'project_user' })

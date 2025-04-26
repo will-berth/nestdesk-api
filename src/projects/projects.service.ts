@@ -6,7 +6,7 @@ import { Repository } from 'typeorm';
 import { UsersService } from '../users/users.service';
 import { ProjectUser } from './models/project-user.entity';
 import { AddUserToProjectDto } from './dto/add-user-to-project.dto';
-import { RolesService } from 'src/roles/roles.service';
+import { RolesService } from '../roles/roles.service';
 
 @Injectable()
 export class ProjectsService {

@@ -8,20 +8,30 @@ import { configService } from '../config/config.service';
 import { UsersModule } from '../users/users.module';
 import { UsersService } from '../users/users.service';
 import { User } from '../users/models/user.entity';
+import { ProjectUser } from './models/project-user.entity';
 import { HttpException } from '@nestjs/common';
+import { RolesModule } from '../roles/roles.module';
+import { JwtModule } from '@nestjs/jwt';
 
 describe('ProjectsService', () => {
   let service: ProjectsService;
   let usersService: UsersService;
   let projectRepository: Repository<Project>;
   let userRepository: Repository<User>;
+  let projectUserRepository: Repository<ProjectUser>;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [
         TypeOrmModule.forRoot(configService.getTypeOrmConfig()),
-        TypeOrmModule.forFeature([Project, User]),
-        UsersModule
+        TypeOrmModule.forFeature([Project, User, ProjectUser]),
+        UsersModule,
+        RolesModule,
+        JwtModule.register({
+          global: true,
+          secret: configService.getJwtSecret(),
+          signOptions: { expiresIn: '1d' },
+        }),
       ],
       providers: [ProjectsService],
     }).compile();
@@ -30,6 +40,7 @@ describe('ProjectsService', () => {
     usersService = module.get<UsersService>(UsersService);
     projectRepository = module.get<Repository<Project>>(getRepositoryToken(Project));
     userRepository = module.get<Repository<User>>(getRepositoryToken(User));
+    projectUserRepository = module.get<Repository<ProjectUser>>(getRepositoryToken(ProjectUser));
 
   });
 

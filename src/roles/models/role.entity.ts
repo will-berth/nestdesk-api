@@ -1,5 +1,5 @@
 import { Exclude } from "class-transformer";
-import { ProjectUser } from "src/projects/models/project-user.entity";
+import { ProjectUser } from "../../projects/models/project-user.entity";
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity({ name: 'roles' })

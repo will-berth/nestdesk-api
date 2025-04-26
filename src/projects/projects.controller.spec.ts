@@ -9,24 +9,28 @@ import { configService } from '../config/config.service';
 import { UsersModule } from '../users/users.module';
 import { User } from '../users/models/user.entity';
 import { JwtModule } from '@nestjs/jwt';
+import { ProjectUser } from './models/project-user.entity';
+import { RolesModule } from '../roles/roles.module';
 
 describe('ProjectsController', () => {
     let controller: ProjectsController;
     let service: ProjectsService;
     let projectRepository: Repository<Project>;
     let userRepository: Repository<User>;
+    let projectUserRepository: Repository<ProjectUser>;
 
     beforeEach(async () => {
         const module: TestingModule = await Test.createTestingModule({
             imports: [
                 TypeOrmModule.forRoot(configService.getTypeOrmConfig()),
-                TypeOrmModule.forFeature([Project, User]),
+                TypeOrmModule.forFeature([Project, User, ProjectUser]),
                 JwtModule.register({
                     global: true,
                     secret: configService.getJwtSecret(),
                     signOptions: { expiresIn: '1d' },
                 }),
-                UsersModule
+                UsersModule,
+                RolesModule
             ],
             controllers: [ProjectsController],
             providers: [ProjectsService],
@@ -36,6 +40,7 @@ describe('ProjectsController', () => {
         service = module.get<ProjectsService>(ProjectsService);
         projectRepository = module.get<Repository<Project>>(getRepositoryToken(Project));
         userRepository = module.get<Repository<User>>(getRepositoryToken(User));
+        projectUserRepository = module.get<Repository<ProjectUser>>(getRepositoryToken(ProjectUser));
 
         // await projectRepository.query(`DELETE FROM projects`);
         // await userRepository.query(`DELETE FROM users`);
