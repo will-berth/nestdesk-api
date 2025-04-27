@@ -2,13 +2,13 @@ import { ClassSerializerInterceptor, Controller, Get, UseGuards, UseInterceptors
 import { RolesService } from './roles.service';
 import { AuthGuard } from '../guards/auth.guard';
 
+@UseGuards(AuthGuard)
 @Controller('roles')
 export class RolesController {
     constructor(private roleService: RolesService) {}
 
     @Get()
     @UseInterceptors(ClassSerializerInterceptor)
-    @UseGuards(AuthGuard)
     findAll() {
         return this.roleService.findAll();
     }

@@ -63,4 +63,28 @@ export class ProjectsService {
             }
         });
     }
+
+    async findOrFail(where: any): Promise<Project> {
+        const project = await this.projectRepository.findOneOrFail({where});
+        if(!project) throw new HttpException('Project not found', HttpStatus.CONFLICT);
+        return project;
+    }
+
+    async findByPublicId(public_id: string): Promise<Project> {
+        return await this.findOrFail({ public_id });
+    }
+    
+    async findUserRolesByUserAndProject(projectPublicId: string, userPublicId: string): Promise<ProjectUser | null> {
+        const roles = await this.projectUserRepository.findOne({
+            where: {
+                project: { public_id: projectPublicId },
+                user: { public_id: userPublicId }
+            },
+            relations: {
+                role: true
+            }
+        });
+
+        return roles;
+    }
 }

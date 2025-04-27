@@ -17,6 +17,7 @@ import { RolesModule } from 'src/roles/roles.module';
     ])
   ],
   controllers: [ProjectsController],
-  providers: [ProjectsService]
+  providers: [ProjectsService],
+  exports: [ProjectsService]
 })
 export class ProjectsModule { }

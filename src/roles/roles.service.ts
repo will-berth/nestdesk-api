@@ -19,5 +19,5 @@ export class RolesService {
         const role = await this.roleRepository.findOne({ where: { public_id } });
         if (!role) throw new HttpException('Rol not found', HttpStatus.CONFLICT);
         return role;
-      }
+    }
 }
