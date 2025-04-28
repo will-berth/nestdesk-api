@@ -3,6 +3,7 @@ import { BeforeInsert, BeforeUpdate, Column, Entity, JoinColumn, ManyToOne, OneT
 import { Exclude } from 'class-transformer';
 import { User } from '../../users/models/user.entity';
 import { ProjectUser } from './project-user.entity';
+import { Ticket } from '../../tickets/models/ticket.entity';
 
 
 @Entity({name: 'projects'})
@@ -40,6 +41,12 @@ export class Project {
 
     @OneToMany(() => ProjectUser, (projectUser) => projectUser.project)
     projectUsers: ProjectUser[];
+
+    @OneToMany(
+        () => Ticket,
+        (ticket) => ticket.project
+    )
+    tickets: Ticket[];
 
     @BeforeInsert()
     generateUser(){

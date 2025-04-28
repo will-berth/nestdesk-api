@@ -3,6 +3,7 @@ import { BeforeInsert, BeforeUpdate, Column, Entity, OneToMany, PrimaryGenerated
 import { Exclude } from 'class-transformer';
 import { Project } from '../../projects/models/project.entity';
 import { ProjectUser } from '../../projects/models/project-user.entity';
+import { Ticket } from '../../tickets/models/ticket.entity';
 
 @Entity({name: 'users'})
 export class User {
@@ -38,6 +39,18 @@ export class User {
 
     @OneToMany(() => ProjectUser, (projectUser) => projectUser.user)
     projectUsers: ProjectUser[];
+
+    @OneToMany(
+        () => Ticket,
+        (ticket) => ticket.creator
+    )
+    createdTickets: Ticket[];
+    
+    @OneToMany(
+        () => Ticket,
+        (ticket) => ticket.assignee
+    )
+    assignedTickets: Ticket[];
 
     @BeforeInsert()
     generateUser(){

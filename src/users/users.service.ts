@@ -28,4 +28,16 @@ export class UsersService {
 
     return user;
   }
+
+  async findOneOrFail(where: any): Promise<User> {
+    const user = await this.userRepository.findOneOrFail({where});
+    if(!user) throw new HttpException('User not found', HttpStatus.CONFLICT);
+    return user;
+  }
+  
+  async findBy(where: any): Promise<User[]> {
+    const users = await this.userRepository.findBy(where);
+    // if(!user) throw new HttpException('User not found', HttpStatus.CONFLICT);
+    return users;
+  }
 }
