@@ -1,8 +1,9 @@
 import { Exclude } from "class-transformer";
 import { Project } from "../../projects/models/project.entity";
-import { BeforeInsert, BeforeUpdate, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { BeforeInsert, BeforeUpdate, Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { v4 as uuidv4 } from 'uuid';
 import { User } from "../../users/models/user.entity";
+import { TicketsComments } from "./tickets-comments.entity";
 
 enum TicketStatus {
     TODO = 'todo',
@@ -90,6 +91,12 @@ export class Ticket {
     )
     @JoinColumn({ name: 'assigned_to' })
     assignee: User;
+
+    @OneToMany(
+        () => TicketsComments,
+        (comment) => comment.ticket
+    )
+    comments: TicketsComments[];
 
     @BeforeInsert()
     generateTicket(){

@@ -5,13 +5,17 @@ import { UsersModule } from '../users/users.module';
 import { ProjectsModule } from '../projects/projects.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Ticket } from './models/ticket.entity';
+import { TicketsTracker } from './models/tickets-tracker.entity';
+import { TicketsComments } from './models/tickets-comments.entity';
 
 @Module({
   imports: [
     UsersModule,
     ProjectsModule,
     TypeOrmModule.forFeature([
-      Ticket
+      Ticket,
+      TicketsTracker,
+      TicketsComments
     ])
   ],
   controllers: [TicketsController],

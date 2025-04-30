@@ -4,6 +4,7 @@ import { Exclude } from 'class-transformer';
 import { Project } from '../../projects/models/project.entity';
 import { ProjectUser } from '../../projects/models/project-user.entity';
 import { Ticket } from '../../tickets/models/ticket.entity';
+import { TicketsComments } from '../../tickets/models/tickets-comments.entity';
 
 @Entity({name: 'users'})
 export class User {
@@ -51,6 +52,12 @@ export class User {
         (ticket) => ticket.assignee
     )
     assignedTickets: Ticket[];
+
+    @OneToMany(
+        () => TicketsComments,
+        (comment) => comment.creators
+    )
+    commentedTickets: TicketsComments[];
 
     @BeforeInsert()
     generateUser(){

@@ -1,9 +1,10 @@
-import { Body, ClassSerializerInterceptor, Controller, Get, Post, Query, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, ClassSerializerInterceptor, Controller, Get, Param, Post, Query, UseGuards, UseInterceptors } from '@nestjs/common';
 import { TicketsService } from './tickets.service';
 import { AuthGuard } from '../guards/auth.guard';
 import { RolesGuard } from '../guards/roles.guard';
 import { Roles } from '../common/decorators/roles.decorator';
 import { CreateTicketDto } from './dto/create-ticket.dto';
+import { AddCommentToTicketDto } from './dto/add-comment-to-ticket.dto';
 
 @Controller('tickets')
 @UseInterceptors(ClassSerializerInterceptor)
@@ -22,5 +23,10 @@ export class TicketsController {
     find(@Query() query: { projectPublicId: string }){
         const { projectPublicId, ...filter } = query;
         return this.ticketsService.find(projectPublicId, filter);
+    }
+
+    @Post('/:ticketId')
+    addComment(@Body() addCommentDto: AddCommentToTicketDto, @Param('ticketId') ticketId: string){
+        return this.ticketsService.addComment(ticketId, addCommentDto);
     }
 }
