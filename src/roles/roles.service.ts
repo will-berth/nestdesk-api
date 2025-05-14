@@ -17,7 +17,10 @@ export class RolesService {
 
     async findByPublicId(public_id: string): Promise<Role> {
         const role = await this.roleRepository.findOne({ where: { public_id } });
-        if (!role) throw new HttpException('Rol not found', HttpStatus.CONFLICT);
+        if (!role) throw new HttpException({
+            message: 'Role not found',
+            code: 'ROLE_NOT_FOUND',
+        }, HttpStatus.CONFLICT);
         return role;
     }
 }

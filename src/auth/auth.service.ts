@@ -11,35 +11,44 @@ export class AuthService {
     constructor(
         private usersService: UsersService,
         private jwtService: JwtService
-    ) {}
+    ) { }
 
     async signUp(createUserDto: CreateUserDto) {
         const user = await this.usersService.findByEmail(createUserDto.email);
-        if (user){
-            throw new HttpException('User already exists', HttpStatus.CONFLICT);
+        if (user) {
+            throw new HttpException({
+                message: 'User already exists',
+                code: 'USER_ALREADY_EXISTS',
+            }, HttpStatus.CONFLICT);
         }
         const hash = await bcrypt.hash(createUserDto.password, 10);
-        const userSaved = await this.usersService.create({...createUserDto, password: hash}); 
+        const userSaved = await this.usersService.create({ ...createUserDto, password: hash });
         const userPlain = instanceToPlain(userSaved);
         return {
-            ... userPlain as CreateUserDto,
+            ...userPlain as CreateUserDto,
             token: this.jwtService.sign(userPlain)
         }
     }
 
     async signIn(userDto: SignInDto) {
         const user = await this.usersService.findByEmail(userDto.email);
-        if (!user){
-            throw new HttpException('User does not exists', HttpStatus.CONFLICT);
+        if (!user) {
+            throw new HttpException({
+                message: 'User does not exist',
+                code: 'USER_NOT_EXISTS',
+            }, HttpStatus.CONFLICT);
         }
 
         const match = await bcrypt.compare(userDto.password, user.password);
-        if (!match){
-            throw new HttpException('Password is not valid', HttpStatus.CONFLICT);
+        if (!match) {
+            throw new HttpException({
+                message: 'Password is not valid',
+                code: 'PASSWORD_NOT_VALID',
+            }, HttpStatus.CONFLICT);
         }
         const userPlain = instanceToPlain(user);
         return {
-            ... userPlain as CreateUserDto,
+            ...userPlain as CreateUserDto,
             token: this.jwtService.sign(userPlain)
         }
     }

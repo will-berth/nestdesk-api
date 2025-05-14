@@ -29,7 +29,10 @@ export class TicketsService {
 
     async findOrFail(where: any): Promise<Ticket>{
         const ticket = await this.ticketRepository.findOne({where});
-        if(!ticket) throw new HttpException('Ticket does not exists', HttpStatus.CONFLICT);
+        if(!ticket) throw new HttpException({
+            message: 'Ticket not found',
+            code: 'TICKET_NOT_FOUND',
+        }, HttpStatus.CONFLICT);
         return ticket;
     }
 

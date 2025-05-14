@@ -21,7 +21,10 @@ export class ProjectsService {
     async create(createProjectDto: CreateProjectDto, userPublicId: string) {
         const projectDb = await this.findByName(createProjectDto.name);
         if (projectDb) {
-            throw new HttpException('Project with this name already exists', HttpStatus.CONFLICT);
+            throw new HttpException({
+                message: 'Project with this name already exists',
+                code: 'PROJECT_ALREADY_EXISTS',
+            }, HttpStatus.CONFLICT);
         }
         const creator = await this.usersService.findByPublicId(userPublicId);
 
@@ -42,7 +45,10 @@ export class ProjectsService {
         ]);
         
         const projectUserDb = await this.projectUserRepository.findOne({ where: { user_id: user.id, project_id: project.id } });
-        if(projectUserDb) throw new HttpException('User already exists in this project', HttpStatus.CONFLICT);
+        if(projectUserDb) throw new HttpException({
+            message: 'User already exists in this project',
+            code: 'USER_ALREADY_EXISTS_IN_PROJECT',
+        }, HttpStatus.CONFLICT);
 
         const projectUser = this.projectUserRepository.create({
             user_id: user.id,
@@ -66,7 +72,10 @@ export class ProjectsService {
 
     async findOrFail(where: any): Promise<Project> {
         const project = await this.projectRepository.findOneOrFail({where});
-        if(!project) throw new HttpException('Project not found', HttpStatus.CONFLICT);
+        if(!project) throw new HttpException({
+            message: 'Project not found',
+            code: 'PROJECT_NOT_FOUND',
+        }, HttpStatus.CONFLICT);
         return project;
     }
 
