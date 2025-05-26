@@ -6,7 +6,8 @@ import { ProjectsModule } from '../projects/projects.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Ticket } from './models/ticket.entity';
 import { TicketsTracker } from './models/tickets-tracker.entity';
-import { TicketsComments } from './models/tickets-comments.entity';
+import { TicketsComments } from './models/tickets-comments.entity'
+import { TICKET_SERVICE } from 'src/interfaces/ticket-service.interface';
 
 @Module({
   imports: [
@@ -19,6 +20,13 @@ import { TicketsComments } from './models/tickets-comments.entity';
     ])
   ],
   controllers: [TicketsController],
-  providers: [TicketsService]
+  providers: [
+    TicketsService,
+    {
+      provide: TICKET_SERVICE,
+      useClass: TicketsService
+    }
+  ],
+  exports: [TICKET_SERVICE]
 })
 export class TicketsModule {}

@@ -11,10 +11,16 @@ import { TicketsModule } from './tickets/tickets.module';
 
 @Module({
   imports: [
-    UsersModule, 
-    TypeOrmModule.forRoot(configService.getTypeOrmConfig()), AuthModule, ProjectsModule, RolesModule, TicketsModule
+    TypeOrmModule.forRoot(configService.getTypeOrmConfig()), 
+    UsersModule,
+    AuthModule, 
+    ProjectsModule, 
+    RolesModule, 
+    TicketsModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+  ],
 })
-export class AppModule {}
+export class AppModule { }

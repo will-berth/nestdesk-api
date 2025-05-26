@@ -1,15 +1,15 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { UsersService } from '../users/users.service';
+import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import * as bcrypt from 'bcryptjs';
 import { CreateUserDto } from '../users/dto/create-user.dto';
 import { JwtService } from '@nestjs/jwt';
 import { instanceToPlain } from 'class-transformer';
 import { SignInDto } from './dto/sign-in-dto';
+import { IUserService, USER_SERVICE } from 'src/interfaces/user-service.interface';
 
 @Injectable()
 export class AuthService {
     constructor(
-        private usersService: UsersService,
+        @Inject(USER_SERVICE) private readonly usersService: IUserService,
         private jwtService: JwtService
     ) { }
 

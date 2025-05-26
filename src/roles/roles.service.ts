@@ -2,9 +2,10 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Role } from './models/role.entity';
+import { IRoleService } from 'src/interfaces/role-service.interface';
 
 @Injectable()
-export class RolesService {
+export class RolesService implements IRoleService {
     constructor(@InjectRepository(Role) private roleRepository: Repository<Role>) {}
 
     async findAll() {

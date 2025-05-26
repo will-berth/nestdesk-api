@@ -1,21 +1,22 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { CreateProjectDto } from './dto/create-project.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Project } from './models/project.entity';
 import { Repository } from 'typeorm';
-import { UsersService } from '../users/users.service';
 import { ProjectUser } from './models/project-user.entity';
 import { AddUserToProjectDto } from './dto/add-user-to-project.dto';
-import { RolesService } from '../roles/roles.service';
+import { IRoleService, ROLE_SERVICE } from 'src/interfaces/role-service.interface';
+import { IProjectService } from 'src/interfaces/project-service.interface';
+import { IUserService, USER_SERVICE } from 'src/interfaces/user-service.interface';
 
 @Injectable()
-export class ProjectsService {
+export class ProjectsService implements IProjectService {
 
     constructor(
         @InjectRepository(Project) private projectRepository: Repository<Project>,
         @InjectRepository(ProjectUser) private projectUserRepository: Repository<ProjectUser>,
-        private usersService: UsersService,
-        private rolesService: RolesService
+        @Inject(USER_SERVICE) private readonly usersService: IUserService,
+        @Inject(ROLE_SERVICE) private readonly rolesService: IRoleService
     ) { }
 
     async create(createProjectDto: CreateProjectDto, userPublicId: string) {

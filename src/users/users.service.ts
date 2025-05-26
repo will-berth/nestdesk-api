@@ -1,12 +1,15 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './models/user.entity';
 import { Repository } from 'typeorm';
+import { IUserService } from 'src/interfaces/user-service.interface';
 
 @Injectable()
-export class UsersService {
-  constructor(@InjectRepository(User) private userRepository: Repository<User>) { }
+export class UsersService implements IUserService {
+  constructor(
+    @InjectRepository(User) private userRepository: Repository<User>
+  ) { }
 
   async create(createUserDto: CreateUserDto) {
     const userDb = await this.findByEmail(createUserDto.email);

@@ -5,6 +5,7 @@ import { RolesGuard } from '../guards/roles.guard';
 import { Roles } from '../common/decorators/roles.decorator';
 import { CreateTicketDto } from './dto/create-ticket.dto';
 import { AddCommentToTicketDto } from './dto/add-comment-to-ticket.dto';
+import { SummaryFilterDto } from './dto/summary-filter.dto';
 
 @Controller('tickets')
 @UseInterceptors(ClassSerializerInterceptor)
@@ -23,6 +24,11 @@ export class TicketsController {
     find(@Query() query: { projectPublicId: string }){
         const { projectPublicId, ...filter } = query;
         return this.ticketsService.find(projectPublicId, filter);
+    }
+
+    @Get('/summary')
+    findSummary(@Query() query: SummaryFilterDto){
+        return this.ticketsService.findSummary(query);
     }
 
     @Post('/:ticketId')

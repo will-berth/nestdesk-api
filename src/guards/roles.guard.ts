@@ -2,15 +2,15 @@
 import { Injectable, CanActivate, ExecutionContext, Inject } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { Roles } from '../common/decorators/roles.decorator';
-import { UsersService } from '../users/users.service';
-import { ProjectsService } from '../projects/projects.service';
+import { IProjectService, PROJECT_SERVICE } from 'src/interfaces/project-service.interface';
+import { IUserService, USER_SERVICE } from 'src/interfaces/user-service.interface';
 
 @Injectable()
 export class RolesGuard implements CanActivate {
     constructor(
         private reflector: Reflector,
-        private userService: UsersService,
-        private projectService: ProjectsService
+        @Inject(USER_SERVICE) private userService: IUserService,
+        @Inject(PROJECT_SERVICE) private projectService: IProjectService
     ) { }
 
     async canActivate(context: ExecutionContext): Promise<boolean> {
