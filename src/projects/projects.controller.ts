@@ -27,4 +27,9 @@ export class ProjectsController {
     getUsers(@Param('projectId') projectId: string) {
         return this.projectsService.getUsers(projectId);
     }
+
+    @Get('')
+    find() {
+        
+    }
 }
